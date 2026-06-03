@@ -1,0 +1,16 @@
+<h1>Cadastro</h1>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <input type="text" placeholder="Username" formControlName="username">
+    <br><br>
+
+    <input type="email" placeholder="Email" formControlName="email">
+    <br><br>
+
+    <input type="password" placeholder="Senha" formControlName="password">
+    <br><br>
+
+    <button type="submit">Cadastrar</button>
+</form>
+
+<p>{{ errorMessage }}</p>

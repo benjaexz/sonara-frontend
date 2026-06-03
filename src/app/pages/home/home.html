@@ -1,0 +1,20 @@
+<h1>Sonara 🎵</h1>
+<p>Sua plataforma musical.</p>
+
+<a routerLink="/login">Entrar</a>
+<br>
+<a routerLink="/register">Registrar</a>
+
+<hr>
+
+<h2>Músicas</h2>
+
+<p>{{ errorMessage }}</p>
+
+<ul>
+    @for (track of tracks; track track.id) {
+    <li>
+        {{ track.title }} — {{ track.durationSeconds }}s
+    </li>
+    }
+</ul>
