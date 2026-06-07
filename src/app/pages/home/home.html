@@ -4,17 +4,64 @@
 <a routerLink="/login">Entrar</a>
 <br>
 <a routerLink="/register">Registrar</a>
+<br>
+<a routerLink="/favorites">Meus Favoritos</a>
+<br>
+<a routerLink="/playlists">Minhas Playlists</a>
 
 <hr>
 
 <h2>Músicas</h2>
 
 <p>{{ errorMessage }}</p>
+<p>{{ successMessage }}</p>
 
 <ul>
     @for (track of tracks; track track.id) {
     <li>
-        {{ track.title }} — {{ track.durationSeconds }}s
+        <strong>
+            {{ track.title }}
+
+            @if (isFavorite(track.id)) {
+            ❤️
+            }
+        </strong>
+
+        <br>
+        Artista: {{ track.artist.name }}
+        <br>
+        Álbum: {{ track.album.title }} ({{ track.album.releaseYear }})
+        <br>
+        Gênero: {{ track.genre.name }}
+        <br>
+        Duração: {{ track.durationSeconds }}s
+        <br><br>
+
+        <button (click)="toggleFavorite(track.id)">
+            @if (isFavorite(track.id)) {
+            Remover dos favoritos
+            } @else {
+            Favoritar
+            }
+        </button>
+
+        <br><br>
+
+        <select [(ngModel)]="selectedPlaylists[track.id]">
+            <option value="">Selecione uma playlist</option>
+
+            @for (playlist of playlists; track playlist.id) {
+            <option [value]="playlist.id">
+                {{ playlist.name }}
+            </option>
+            }
+        </select>
+
+        <button (click)="addToPlaylist(track.id)">
+            Adicionar à playlist
+        </button>
     </li>
+
+    <br>
     }
 </ul>
