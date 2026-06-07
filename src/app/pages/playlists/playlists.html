@@ -1,0 +1,33 @@
+<h2>Minhas Playlists</h2>
+
+<div>
+    <input type="text" placeholder="Nome da playlist" [(ngModel)]="name">
+
+    <input type="text" placeholder="Descrição" [(ngModel)]="description">
+
+    <button (click)="createPlaylist()">
+        Criar Playlist
+    </button>
+</div>
+
+<hr>
+
+<div *ngIf="errorMessage">
+    {{ errorMessage }}
+</div>
+
+<div *ngFor="let playlist of playlists">
+    <h3>{{ playlist.name }}</h3>
+
+    <p>{{ playlist.description }}</p>
+
+    <p>
+        Faixas: {{ playlist.tracks.length }}
+    </p>
+
+    <button (click)="deletePlaylist(playlist.id)">
+        Excluir
+    </button>
+
+    <hr>
+</div>
