@@ -1,13 +1,145 @@
-.app-shell.auth-mode {
-    padding: 0;
-    justify-content: center;
-    align-items: center;
+:host {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    background-color: #0d0d0f;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
 }
 
-.app-shell.auth-mode .main-viewport {
-    max-width: 100%;
-    width: 100%;
+/* Shell Layout Principal */
+.app-shell {
     display: flex;
-    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+/* Sidebar Estilo Apple Music */
+.apple-sidebar {
+    width: 240px;
+    background: rgba(20, 20, 22, 0.65);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+}
+
+.brand {
+    display: flex;
     align-items: center;
+    gap: 12px;
+    padding: 0 12px 28px 12px;
+}
+
+.brand-badge {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
+.brand-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+}
+
+/* Menu de Navegação */
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #a1a1aa;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s ease;
+}
+
+.nav-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.active {
+    color: #ffffff;
+    background: rgba(250, 45, 72, 0.14);
+    /* Rosa/Cereja Apple Music sutil */
+    color: #fa586a;
+}
+
+.nav-item.active .nav-icon {
+    stroke: #fa586a;
+}
+
+/* Rodapé da Sidebar */
+.sidebar-footer {
+    display: flex;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.auth-pill-btn {
+    flex: 1;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #a1a1aa;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.auth-pill-btn:hover {
+    color: #ffffff;
+}
+
+.auth-pill-btn.active {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Área de Conteúdo */
+.main-viewport {
+    flex: 1;
+    margin-left: 240px;
+    /* Compensa a largura da sidebar fixa */
+    padding: 36px 48px 120px 48px;
+    /* Espaço inferior para o player flutuante */
+    min-width: 0;
+}
+
+/* Modo Login/Cadastro: Oculta Sidebar e Centraliza Viewport */
+.app-shell.auth-mode .main-viewport {
+    margin-left: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

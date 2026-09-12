@@ -1,15 +1,16 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { Track, TrackResponse } from '../../services/track';
 import { Favorite, FavoriteResponse } from '../../services/favorite';
 import { Playlist, PlaylistResponse } from '../../services/playlist';
 import { HistoryService } from '../../services/history';
+import { PlayerService } from '../../services/player';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, FormsModule],
+  standalone: true,
+  imports: [FormsModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -28,6 +29,7 @@ export class Home implements OnInit {
     private favoriteService: Favorite,
     private playlistService: Playlist,
     private historyService: HistoryService,
+    private playerService: PlayerService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -77,10 +79,11 @@ export class Home implements OnInit {
   }
 
   playTrack(track: TrackResponse): void {
+    this.playerService.play(track);
+
     this.historyService.registerListening(track.id).subscribe({
       next: () => {
         this.errorMessage = '';
-        this.successMessage = `Reproduzindo agora: ${track.title}`;
         this.cdr.detectChanges();
       },
       error: () => {
@@ -105,7 +108,6 @@ export class Home implements OnInit {
           this.cdr.detectChanges();
         }
       });
-
       return;
     }
 

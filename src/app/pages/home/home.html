@@ -26,7 +26,6 @@
                 </svg>
             </div>
 
-            <!-- Botão Play Flutuante estilo Spotify -->
             <button class="play-btn" (click)="playTrack(track)" title="Ouvir agora">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
@@ -49,10 +48,10 @@
                 </button>
             </div>
 
-            <p class="track-artist">{{ track.artist?.name || 'Artista' }}</p>
-            <p class="track-album">{{ track.album?.title }} • {{ track.album?.releaseYear }}</p>
+            <p class="track-artist">{{ track.artist.name || 'Artista' }}</p>
+            <p class="track-album">{{ track.album.title }} • {{ track.album.releaseYear }}</p>
 
-            @if (track.genre?.name) {
+            @if (track.genre.name) {
             <span class="genre-badge">{{ track.genre.name }}</span>
             }
         </div>

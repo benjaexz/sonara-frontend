@@ -30,7 +30,7 @@
     @for (playlist of playlists; track playlist.id) {
     <article class="playlist-card">
         <div class="card-header">
-            <span class="track-count-pill">{{ playlist.tracks?.length || 0 }} faixas</span>
+            <span class="track-count-pill">{{ playlist.tracks.length || 0 }} faixas</span>
 
             <button class="delete-btn" (click)="deletePlaylist(playlist.id)" title="Excluir playlist">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"
