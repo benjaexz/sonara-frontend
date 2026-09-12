@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +9,10 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  // resto do código mantido igual
+  constructor(private router: Router) { }
+
+  isAuthRoute(): boolean {
+    const url = this.router.url;
+    return url.includes('/login') || url.includes('/register');
+  }
 }

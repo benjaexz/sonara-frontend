@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -17,7 +18,8 @@ export class Login {
   constructor(
     private fb: FormBuilder,
     private auth: Auth,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -41,8 +43,10 @@ export class Login {
         this.auth.saveToken(response.token);
         this.router.navigate(['/']);
       },
-      error: () => {
-        this.errorMessage = 'Email ou senha inválidos.';
+      error: (err) => {
+        console.error('Falha na autenticação:', err);
+        this.errorMessage = err?.error?.message || 'Email ou senha inválidos.';
+        this.cdr.detectChanges();
       }
     });
   }
