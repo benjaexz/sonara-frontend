@@ -25,9 +25,12 @@
         Faixas: {{ playlist.tracks.length }}
     </p>
 
-    <button (click)="deletePlaylist(playlist.id)">
-        Excluir
-    </button>
 
-    <hr>
-</div>
+    <ul *ngIf="playlist.tracks && playlist.tracks.length > 0">
+        <li *ngFor="let item of playlist.tracks">
+            <span>{{ item.track?.title || item.title }}</span>
+            <button (click)="removeTrack(playlist.id, item.track?.id || item.id)">
+                Remover faixa
+            </button>
+        </li>
+    </ul>

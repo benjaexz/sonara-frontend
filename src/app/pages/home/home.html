@@ -1,67 +1,58 @@
-<h1>Sonara 🎵</h1>
-<p>Sua plataforma musical.</p>
+<header class="view-header">
+    <div>
+        <h1 class="page-title">Explorar Catálogo</h1>
+        <p class="page-subtitle">Sons em alta e novidades masterizadas.</p>
+    </div>
+</header>
 
-<a routerLink="/login">Entrar</a>
-<br>
-<a routerLink="/register">Registrar</a>
-<br>
-<a routerLink="/favorites">Meus Favoritos</a>
-<br>
-<a routerLink="/playlists">Minhas Playlists</a>
+@if (errorMessage) {
+<div class="banner error-banner">{{ errorMessage }}</div>
+}
 
-<hr>
+@if (successMessage) {
+<div class="banner success-banner">{{ successMessage }}</div>
+}
 
-<h2>Músicas</h2>
-
-<p>{{ errorMessage }}</p>
-<p>{{ successMessage }}</p>
-
-<ul>
+<div class="tracks-grid">
     @for (track of tracks; track track.id) {
-    <li>
-        <strong>
-            {{ track.title }}
+    <article class="glass-card">
+        <div class="album-art-wrap">
+            <div class="album-mockup">
+                <span class="disc-glow">💿</span>
+            </div>
+            <button class="play-floating-btn" (click)="playTrack(track)" title="Ouvir agora">
+                ▶
+            </button>
+        </div>
 
-            @if (isFavorite(track.id)) {
-            ❤️
-            }
-        </strong>
+        <div class="track-info">
+            <div class="title-row">
+                <h3 class="track-title" [title]="track.title">{{ track.title }}</h3>
+                <button class="fav-icon-btn" (click)="toggleFavorite(track.id)" [class.active]="isFavorite(track.id)">
+                    {{ isFavorite(track.id) ? '❤️' : '🤍' }}
+                </button>
+            </div>
 
-        <br>
-        Artista: {{ track.artist.name }}
-        <br>
-        Álbum: {{ track.album.title }} ({{ track.album.releaseYear }})
-        <br>
-        Gênero: {{ track.genre.name }}
-        <br>
-        Duração: {{ track.durationSeconds }}s
-        <br><br>
+            <p class="track-artist">{{ track.artist.name }}</p>
+            <p class="track-album-meta">{{ track.album.title }} • {{ track.album.releaseYear }}</p>
 
-        <button (click)="toggleFavorite(track.id)">
-            @if (isFavorite(track.id)) {
-            Remover dos favoritos
-            } @else {
-            Favoritar
-            }
-        </button>
+            <div class="pill-tag">{{ track.genre.name }}</div>
+        </div>
 
-        <br><br>
+        <div class="card-footer">
+            <div class="custom-select-wrap">
+                <select [(ngModel)]="selectedPlaylists[track.id]">
+                    <option value="">Adicionar à playlist...</option>
+                    @for (playlist of playlists; track playlist.id) {
+                    <option [value]="playlist.id">{{ playlist.name }}</option>
+                    }
+                </select>
+            </div>
 
-        <select [(ngModel)]="selectedPlaylists[track.id]">
-            <option value="">Selecione uma playlist</option>
-
-            @for (playlist of playlists; track playlist.id) {
-            <option [value]="playlist.id">
-                {{ playlist.name }}
-            </option>
-            }
-        </select>
-
-        <button (click)="addToPlaylist(track.id)">
-            Adicionar à playlist
-        </button>
-    </li>
-
-    <br>
+            <button class="add-btn" (click)="addToPlaylist(track.id)">
+                +
+            </button>
+        </div>
+    </article>
     }
-</ul>
+</div>

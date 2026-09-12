@@ -1,1 +1,32 @@
-<router-outlet></router-outlet>
+<div class="app-shell">
+    <aside class="glass-sidebar">
+        <div class="brand">
+            <div class="logo-icon">🎵</div>
+            <h2>Sonara</h2>
+        </div>
+
+        <nav class="nav-menu">
+            <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
+                <span class="icon">✨</span> Músicas
+            </a>
+            <a routerLink="/playlists" routerLinkActive="active" class="nav-link">
+                <span class="icon">📁</span> Playlists
+            </a>
+            <a routerLink="/favorites" routerLinkActive="active" class="nav-link">
+                <span class="icon">❤️</span> Favoritos
+            </a>
+            <a routerLink="/history" routerLinkActive="active" class="nav-link">
+                <span class="icon">🕒</span> Histórico
+            </a>
+        </nav>
+
+        <div class="user-action-pill">
+            <a routerLink="/login" class="pill-btn login">Entrar</a>
+            <a routerLink="/register" class="pill-btn register">Registrar</a>
+        </div>
+    </aside>
+
+    <main class="main-viewport">
+        <router-outlet></router-outlet>
+    </main>
+</div>

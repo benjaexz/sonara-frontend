@@ -1,0 +1,16 @@
+<h2>Histórico de Reprodução</h2>
+
+<div *ngIf="errorMessage">
+    {{ errorMessage }}
+</div>
+
+<div *ngIf="history.length === 0">
+    <p>Nenhuma música no histórico ainda.</p>
+</div>
+
+<ul *ngIf="history.length > 0">
+    <li *ngFor="let item of history">
+        <strong>{{ item.track.title }}</strong>
+        <span> - Ouvido em: {{ item.listenedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+    </li>
+</ul>

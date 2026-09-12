@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Track, TrackResponse } from '../../services/track';
 import { Favorite, FavoriteResponse } from '../../services/favorite';
 import { Playlist, PlaylistResponse } from '../../services/playlist';
+import { HistoryService } from '../../services/history';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,7 @@ export class Home implements OnInit {
     private trackService: Track,
     private favoriteService: Favorite,
     private playlistService: Playlist,
+    private historyService: HistoryService,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -69,6 +71,20 @@ export class Home implements OnInit {
       },
       error: () => {
         this.errorMessage = 'Erro ao carregar playlists.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  playTrack(track: TrackResponse): void {
+    this.historyService.registerListening(track.id).subscribe({
+      next: () => {
+        this.errorMessage = '';
+        this.successMessage = `Reproduzindo agora: ${track.title}`;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.errorMessage = 'Erro ao registrar reprodução no histórico.';
         this.cdr.detectChanges();
       }
     });

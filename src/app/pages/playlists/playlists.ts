@@ -43,7 +43,6 @@ export class Playlists implements OnInit {
   }
 
   createPlaylist(): void {
-
     if (!this.name.trim()) {
       this.errorMessage = 'Nome da playlist é obrigatório.';
       return;
@@ -75,6 +74,19 @@ export class Playlists implements OnInit {
       error: (error) => {
         console.error(error);
         this.errorMessage = 'Erro ao remover playlist.';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  removeTrack(playlistId: string, trackId: string): void {
+    this.playlistService.removeTrackFromPlaylist(playlistId, trackId).subscribe({
+      next: () => {
+        this.loadPlaylists();
+      },
+      error: (error) => {
+        console.error(error);
+        this.errorMessage = 'Erro ao remover faixa da playlist.';
         this.cdr.detectChanges();
       }
     });

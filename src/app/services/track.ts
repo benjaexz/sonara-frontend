@@ -6,6 +6,22 @@ export interface TrackResponse {
   id: string;
   title: string;
   durationSeconds: number;
+
+  artist: {
+    id: string;
+    name: string;
+  };
+
+  album: {
+    id: string;
+    title: string;
+    releaseYear: number;
+  };
+
+  genre: {
+    id: string;
+    name: string;
+  };
 }
 
 @Injectable({
@@ -23,6 +39,8 @@ export class Track {
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.get<TrackResponse[]>(this.apiUrl, { headers });
+    return this.http.get<TrackResponse[]>(this.apiUrl, {
+      headers
+    });
   }
 }
