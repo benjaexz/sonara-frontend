@@ -1,51 +1,82 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
-interface LoginRequest {
+export interface LoginRequest {
   email: string;
-  password: string;
+  password?: string;
 }
 
-interface RegisterRequest {
+export interface RegisterRequest {
   username: string;
   email: string;
-  password: string;
+  password?: string;
 }
 
-interface LoginResponse {
+export interface AuthResponse {
   token: string;
+  username?: string;
+  name?: string;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class Auth {
-  private readonly apiUrl = 'http://localhost:8080/auth';
+  private readonly apiUrl = 'http://localhost:8080/api/auth';
+  private readonly tokenKey = 'auth_token';
+  private readonly userKey = 'auth_user';
+
+  private currentUserSubject = new BehaviorSubject<string | null>(this.getStoredUsername());
+  currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  login(data: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, data);
+  login(credentials: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials);
   }
 
-  register(data: RegisterRequest): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/register`, data);
+  register(data: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data);
   }
 
-  saveToken(token: string): void {
-    localStorage.setItem('sonara_token', token);
+  saveToken(token: string, username?: string): void {
+    localStorage.setItem(this.tokenKey, token);
+    const finalUsername = username || this.parseTokenUsername(token) || 'Usuário';
+    localStorage.setItem(this.userKey, finalUsername);
+    this.currentUserSubject.next(finalUsername);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('sonara_token');
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getToken();
   }
 
   logout(): void {
-    localStorage.removeItem('sonara_token');
+    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
+    this.currentUserSubject.next(null);
   }
 
-  isAuthenticated(): boolean {
-    return !!this.getToken();
+  private getStoredUsername(): string | null {
+    return localStorage.getItem(this.userKey);
+  }
+
+  private parseTokenUsername(token: string): string | null {
+    try {
+      const parts = token.split('.');
+      if (parts.length < 2) return null;
+
+      // Corrige base64url para base64 padrão antes de decodificar
+      const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const payload = JSON.parse(decodeURIComponent(escape(atob(base64))));
+
+      return payload.username || payload.name || payload.sub || null;
+    } catch {
+      return null;
+    }
   }
 }

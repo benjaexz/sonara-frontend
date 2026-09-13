@@ -85,9 +85,7 @@
 }
 
 .nav-item.active {
-    color: #ffffff;
     background: rgba(250, 45, 72, 0.14);
-    /* Rosa/Cereja Apple Music sutil */
     color: #fa586a;
 }
 
@@ -97,6 +95,12 @@
 
 /* Rodapé da Sidebar */
 .sidebar-footer {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.auth-toggle {
     display: flex;
     background: rgba(0, 0, 0, 0.4);
     padding: 4px;
@@ -125,13 +129,76 @@
     color: #000000;
 }
 
+/* Card do Usuário Logado */
+.user-profile-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+}
+
+.user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fa2d48, #fa586a);
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(250, 45, 72, 0.3);
+}
+
+.user-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.user-name {
+    color: #ffffff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.account-status {
+    color: #71717a;
+    font-size: 0.7rem;
+}
+
+.logout-action-btn {
+    background: transparent;
+    border: none;
+    color: #71717a;
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: color 0.15s ease, background 0.15s ease;
+}
+
+.logout-action-btn:hover {
+    color: #fa2d48;
+    background: rgba(250, 45, 72, 0.1);
+}
+
 /* Área de Conteúdo */
 .main-viewport {
     flex: 1;
     margin-left: 240px;
-    /* Compensa a largura da sidebar fixa */
     padding: 36px 48px 120px 48px;
-    /* Espaço inferior para o player flutuante */
     min-width: 0;
 }
 
