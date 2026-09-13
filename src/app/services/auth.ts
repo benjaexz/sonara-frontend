@@ -23,7 +23,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class Auth {
-  private readonly apiUrl = 'http://localhost:8080/api/auth';
+  private readonly apiUrl = '/api/auth';
   private readonly tokenKey = 'auth_token';
   private readonly userKey = 'auth_user';
 
@@ -70,7 +70,6 @@ export class Auth {
       const parts = token.split('.');
       if (parts.length < 2) return null;
 
-      // Corrige base64url para base64 padrão antes de decodificar
       const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
       const payload = JSON.parse(decodeURIComponent(escape(atob(base64))));
 
